@@ -1,7 +1,5 @@
 # Used from  https://github.com/philipperemy/Deep-Learning-Tinder/blob/master/tinder_token.py
-
 import re
-
 import requests
 import robobrowser
 
@@ -22,9 +20,9 @@ def get_fb_access_token(email, password):
         access_token = re.search(
             r"access_token=([\w\d]+)", s.response.content.decode()).groups()[0]
         return access_token
-    except Exception as ex:
-        print("access token could not be retrieved. Check your username and password.")
-        print("Official error: %s" % ex)
+    except requests.exceptions.InvalidSchema as browserAddress:
+        # print(type(browserAddress))
+        access_token = re.search(r"access_token=([\w\d]+)", str(browserAddress)).groups()[0]
         return {"error": "access token could not be retrieved. Check your username and password."}
 
 
